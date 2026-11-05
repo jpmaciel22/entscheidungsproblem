@@ -1,3 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+/build/
+ARVORES_BLENDER.md
+EXPORTAR_WINDOWS.md
+referencias/README.md

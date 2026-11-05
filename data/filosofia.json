@@ -1,0 +1,162 @@
+[
+  {
+    "id": "filo_01",
+    "enunciado": "Uma pessoa considera que perceber objetos pelos sentidos basta para conhecer a verdade. Na teoria das Ideias de Platão, qual seria a principal objeção a essa posição?",
+    "alternativas": ["A razão deve se limitar a repetir as aparências.", "O conhecimento verdadeiro exige a razão, indo além das aparências sensíveis.", "Toda opinião pessoal possui o mesmo valor que uma demonstração.", "A verdade depende apenas da intensidade das sensações."],
+    "indice_correto": 1,
+    "explicacao": "Platão privilegia o conhecimento racional das Ideias. As percepções sensíveis, ligadas a objetos mutáveis, não bastam para fundamentar esse conhecimento.",
+    "fonte": "Adaptação didática · ENEM 2012 · 1º dia · Amarelo · questão 32",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2012/caderno_enem2012_sab_amarelo.pdf"
+  },
+  {
+    "id": "filo_02",
+    "enunciado": "Uma estudante pode escolher como se preparar para uma avaliação, mas não pode decidir a hora em que o Sol nascerá. Para Aristóteles, a deliberação diz respeito principalmente a:",
+    "alternativas": ["Acontecimentos eternos que independem de nós.", "Fenômenos naturais que obedecem à vontade individual.", "Tudo aquilo que conseguimos imaginar, mesmo sem poder agir.", "Ações possíveis que estão ao alcance da decisão humana."],
+    "indice_correto": 3,
+    "explicacao": "Deliberamos sobre aquilo que pode ser feito por nós. Essa possibilidade de escolha ajuda a compreender a responsabilidade pelas ações.",
+    "fonte": "Adaptação didática · ENEM PPL 2012 · 1º dia · Branco · questão 8",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/ppl/2012/prova_caderno_branco_3_2012.pdf"
+  },
+  {
+    "id": "filo_03",
+    "enunciado": "O projeto moderno associado a Descartes, Bacon e ao Iluminismo atribui à investigação científica uma função de transformação da vida humana. Nessa perspectiva, a ciência deve:",
+    "alternativas": ["Usar a razão para compreender a natureza e favorecer o progresso humano.", "Substituir o exame dos fenômenos pela aceitação de mitos.", "Impedir qualquer aplicação prática do conhecimento.", "Proibir perguntas que ainda não possuam respostas definitivas."],
+    "indice_correto": 0,
+    "explicacao": "O projeto moderno valoriza a investigação racional e suas possibilidades de melhorar as condições de vida, tomando a ciência como referência para o progresso.",
+    "fonte": "Adaptação didática · ENEM 2013 · 1º dia · Amarelo · questão 35",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2013/caderno_enem2013_sab_amarelo.pdf"
+  },
+  {
+    "id": "filo_04",
+    "enunciado": "Alguém imagina uma fruta feita de ouro, combinando coisas que já percebeu separadamente. Como o empirismo de David Hume explica essa criação mental?",
+    "alternativas": ["A mente recebe todas as ideias prontas antes de qualquer experiência.", "A imaginação demonstra que os sentidos nunca participam do pensamento.", "A mente combina conteúdos que têm origem nas impressões da experiência.", "Pensar é apenas recordar conhecimentos adquiridos antes do nascimento."],
+    "indice_correto": 2,
+    "explicacao": "Para Hume, as ideias derivam das impressões. A imaginação pode recombinar esses materiais, sem que isso torne as ideias independentes da experiência.",
+    "fonte": "Adaptação didática · ENEM 2015 · 1º dia · Azul · questão 16",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2015/CAD_ENEM%202015_DIA%201_01_AZUL.pdf"
+  },
+  {
+    "id": "filo_05",
+    "enunciado": "Na posição atribuída ao sofista Trasímaco, as regras do justo e do injusto são criadas nas sociedades. Essa interpretação aproxima a justiça de:",
+    "alternativas": ["Leis biológicas invariáveis.", "Convenções humanas ligadas a interesses sociais.", "Verdades que existem sem relação com a vida coletiva.", "Ordens divinas que não admitem discussão."],
+    "indice_correto": 1,
+    "explicacao": "O ponto central é o caráter convencional das regras: elas são produzidas por seres humanos em relações sociais, em vez de valerem por natureza.",
+    "fonte": "Adaptação didática · ENEM 2015 · 1º dia · Azul · questão 13",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2015/CAD_ENEM%202015_DIA%201_01_AZUL.pdf"
+  },
+  {
+    "id": "filo_06",
+    "enunciado": "Para Thomas Hobbes, a ausência de um poder comum capaz de impor regras pode gerar medo e conflitos, mesmo entre pessoas que não sejam permanentemente agressivas. Esse estado de natureza é caracterizado por:",
+    "alternativas": ["Possibilidade de conflito generalizado e insegurança.", "Proteção garantida por tribunais imparciais.", "Harmonia assegurada espontaneamente em todas as relações.", "Obediência a uma constituição já reconhecida por todos."],
+    "indice_correto": 0,
+    "explicacao": "Sem uma autoridade comum, falta uma garantia estável de segurança. Hobbes usa essa condição para justificar a constituição do poder político.",
+    "fonte": "Adaptação didática · ENEM 2016 · 2ª aplicação · 1º dia · Branco · questão 17",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2016/CAD_ENEM_2016_DIA_1_03_BRANCO_2.pdf"
+  },
+  {
+    "id": "filo_07",
+    "enunciado": "Tomás de Aquino retomou elementos da filosofia de Aristóteles no pensamento cristão medieval. Qual afirmação representa essa aproximação?",
+    "alternativas": ["A reflexão racional deve ser eliminada de qualquer discussão religiosa.", "Toda observação da natureza necessariamente nega a existência de Deus.", "Aristóteles escreveu uma defesa histórica da Igreja medieval.", "A investigação racional pode ser articulada à fé cristã."],
+    "indice_correto": 3,
+    "explicacao": "A síntese tomista procura compatibilizar elementos aristotélicos com o cristianismo. Razão e fé não são tomadas como necessariamente incompatíveis.",
+    "fonte": "Adaptação temática · ENEM PPL 2016 · 1º dia · Branco · questão 34",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/ppl/2016/prova_caderno_branco_11_2016.pdf"
+  },
+  {
+    "id": "filo_08",
+    "enunciado": "Uma pessoa promete devolver um empréstimo, sabendo que não pretende pagar. Na ética de Kant, o problema moral dessa regra de ação é que:",
+    "alternativas": ["O resultado financeiro sempre torna a mentira obrigatória.", "A regra é correta sempre que favorecer quem a utiliza.", "Ela não pode valer como regra universal sem comprometer a própria promessa.", "O dever moral é definido apenas pelo medo da punição."],
+    "indice_correto": 2,
+    "explicacao": "Se a falsa promessa fosse uma regra universal, a confiança necessária às promessas desapareceria. A máxima entra em contradição ao ser universalizada.",
+    "fonte": "Adaptação didática · ENEM 2017 · 1º dia · Azul · questão 85",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2017/cad_1_prova_azul_5112017.pdf"
+  },
+  {
+    "id": "filo_09",
+    "enunciado": "Antes de decidir uma política pública, uma cidade organiza debates nos quais os participantes podem apresentar argumentos e contestar propostas. Na democracia deliberativa de Habermas, o elemento decisivo é:",
+    "alternativas": ["A decisão exclusiva de quem possui mais recursos econômicos.", "A discussão pública livre e racional que antecede a decisão.", "A eliminação das diferenças para impedir qualquer discordância.", "A substituição dos argumentos pela autoridade de especialistas."],
+    "indice_correto": 1,
+    "explicacao": "A legitimidade democrática depende de procedimentos inclusivos de debate e deliberação. Os cidadãos devem poder participar da formação das decisões.",
+    "fonte": "Adaptação didática · ENEM 2017 · 1º dia · Azul · questão 84",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2017/cad_1_prova_azul_5112017.pdf"
+  },
+  {
+    "id": "filo_10",
+    "enunciado": "Ao analisar a ação de um governante, Maquiavel considera circunstâncias políticas e consequências para a coletividade. Essa perspectiva introduz uma distinção entre:",
+    "alternativas": ["A moral individual e a avaliação prática da ação política.", "O conhecimento científico e a impossibilidade de governar.", "A autoridade religiosa e a ausência de decisões públicas.", "A experiência histórica e a proibição de considerar resultados."],
+    "indice_correto": 0,
+    "explicacao": "A política passa a ser examinada por suas condições efetivas e por seus resultados coletivos. Isso impede reduzir toda decisão pública aos mesmos critérios da moral privada.",
+    "fonte": "Adaptação didática · ENEM 2019 · 1º dia · Rosa · questão 79",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2019/2019_PV_impresso_D1_CD4.pdf"
+  },
+  {
+    "id": "filo_11",
+    "enunciado": "Uma teoria explica a formação do Estado por um acordo: os indivíduos aceitam limitar parte da liberdade natural para obter segurança e garantia de direitos. Essa explicação pertence ao:",
+    "alternativas": [
+      "Determinismo biológico.",
+      "Absolutismo de direito divino.",
+      "Contratualismo.",
+      "Anarquismo que rejeita qualquer autoridade política."
+    ],
+    "indice_correto": 2,
+    "explicacao": "As teorias contratualistas justificam a organização política a partir de um pacto. Hobbes, Locke e Rousseau propõem versões diferentes desse argumento.",
+    "fonte": "Adaptação didática · ENEM PPL 2012 · 1º dia · Branco · questão 7",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/ppl/2012/prova_caderno_branco_3_2012.pdf"
+  },
+  {
+    "id": "filo_12",
+    "enunciado": "Na pólis grega, os cidadãos habilitados discutiam propostas na ágora e participavam pessoalmente das decisões coletivas. Qual modelo de prática democrática está representado?",
+    "alternativas": [
+      "Democracia direta.",
+      "Monarquia hereditária.",
+      "Democracia exclusivamente representativa.",
+      "Governo restrito a autoridades religiosas."
+    ],
+    "indice_correto": 0,
+    "explicacao": "A participação pessoal dos cidadãos na deliberação caracteriza a democracia direta. Isso não significa que toda a população da pólis tivesse direitos políticos.",
+    "fonte": "Adaptação didática · ENEM PPL 2012 · 1º dia · Branco · questão 9",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/ppl/2012/prova_caderno_branco_3_2012.pdf"
+  },
+  {
+    "id": "filo_13",
+    "enunciado": "Uma sociedade garante igualdade formal, mas suas regras ainda refletem apenas a cultura majoritária. Na perspectiva de Habermas, o reconhecimento das minorias exige:",
+    "alternativas": [
+      "A imposição de uma única tradição a todos os grupos.",
+      "O afastamento das minorias das decisões públicas.",
+      "A aceitação de diferenças apenas quando não forem debatidas.",
+      "A participação das diferentes culturas no debate público em condições de respeito."
+    ],
+    "indice_correto": 3,
+    "explicacao": "A inclusão envolve permitir que grupos diversos apresentem suas reivindicações e discutam as normas comuns, sem tomar a cultura majoritária como única referência legítima.",
+    "fonte": "Adaptação didática · ENEM 2012 · 1º dia · Amarelo · questão 2",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2012/caderno_enem2012_sab_amarelo.pdf"
+  },
+  {
+    "id": "filo_14",
+    "enunciado": "Ao refletir sobre uma vida boa, Aristóteles não identifica a felicidade simplesmente com riqueza, fama ou uma satisfação passageira. A felicidade é compreendida como:",
+    "alternativas": [
+      "Acúmulo ilimitado de bens materiais.",
+      "Finalidade da vida humana, realizada em atividades excelentes e virtuosas.",
+      "Fuga de toda ação e de toda convivência social.",
+      "Reconhecimento público, independentemente da conduta."
+    ],
+    "indice_correto": 1,
+    "explicacao": "A felicidade, ou eudaimonia, é o fim da vida humana e está ligada à atividade conforme a virtude. Não se reduz à posse de bens ou ao prazer momentâneo.",
+    "fonte": "Adaptação didática · ENEM 2013 · 1º dia · Amarelo · questão 32",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2013/caderno_enem2013_sab_amarelo.pdf"
+  },
+  {
+    "id": "filo_15",
+    "enunciado": "Ao discutir a existência de Deus e a origem do mundo, pensadores da modernidade procuram examinar argumentos, em vez de se apoiar somente na autoridade de uma tradição. Essa postura valoriza:",
+    "alternativas": [
+      "A explicação mitológica como único critério de verdade.",
+      "A proibição de analisar racionalmente temas religiosos.",
+      "A razão humana como instrumento de investigação e justificação.",
+      "A aceitação de qualquer crença sem exigir razões."
+    ],
+    "indice_correto": 2,
+    "explicacao": "O traço destacado é a investigação centrada na razão. Ela permite formular e avaliar argumentos inclusive sobre temas religiosos, sem pressupor que toda investigação levará à mesma conclusão.",
+    "fonte": "Adaptação temática · ENEM 2019 · 1º dia · Rosa · questão 77",
+    "url_fonte": "https://download.inep.gov.br/educacao_basica/enem/provas/2019/2019_PV_impresso_D1_CD4.pdf"
+  }
+]
