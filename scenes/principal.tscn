@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scripts/mundo.gd" id="1_mundo"]
 
-[node name="Entscheidungsproblem" type="Node3D"]
+[node name="Konzept" type="Node3D"]
 script = ExtResource("1_mundo")

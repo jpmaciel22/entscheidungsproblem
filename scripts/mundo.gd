@@ -1,5 +1,5 @@
 extends Node3D
-## Biblioteca procedural. Todas as malhas são primitivas do Godot.
+## Biblioteca com arquitetura procedural, paisagismo e mobiliário GLB.
 
 const Config = preload("res://scripts/configuracao.gd")
 const Jogador = preload("res://scripts/jogador.gd")
@@ -7,6 +7,8 @@ const Interior = preload("res://scripts/interior.gd")
 const Questionario = preload("res://scripts/questionario.gd")
 const Fluxo = preload("res://scripts/fluxo_jogo.gd")
 const Paisagismo = preload("res://scenes/paisagismo.tscn")
+const BancoExterno = preload("res://scenes/moveis/banco_externo.tscn")
+const Neve = preload("res://scripts/neve.gd")
 var materiais: Dictionary = {}
 var camada_instrucoes: CanvasLayer
 
@@ -20,6 +22,7 @@ func _ready() -> void:
 	criar_paisagismo()
 	criar_interior()
 	criar_jogador()
+	criar_neve()
 	criar_instrucoes()
 	criar_questionario()
 	criar_fluxo_jogo()
@@ -148,8 +151,9 @@ func criar_paisagismo() -> void:
 		for posicao in Config.ARVORES:
 			criar_arvore(posicao)
 	for posicao in Config.BANCOS:
-		for parte in Config.BANCO_PARTES:
-			criar_caixa("Banco", parte[0], posicao + parte[1], parte[2], true)
+		var banco := BancoExterno.instantiate() as Node3D
+		banco.position = posicao + Config.BANCOS_PISO_OFFSET
+		add_child(banco)
 
 
 # Combina um vaso e cilindros de poucos lados para formar uma árvore.
@@ -165,6 +169,14 @@ func criar_jogador() -> void:
 	var jogador := Jogador.new()
 	jogador.position = Config.JOGADOR_INICIO
 	add_child(jogador)
+
+
+# Adiciona a neve nativa, controlada pela posição do jogador no prédio.
+func criar_neve() -> void:
+	var neve := Neve.new()
+	neve.name = "Neve"
+	neve.jogador = get_node("Jogador")
+	add_child(neve)
 
 
 # Delega a construção da recepção e das três salas a um script pequeno separado.

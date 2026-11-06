@@ -1,11 +1,14 @@
 extends Node3D
-## Recepção e três salas, construídas por código com primitivas e colisões simples.
+## Recepção e três salas, com arquitetura procedural e móveis importados.
 
 signal solicitar_questoes(indice: int)
 
 const Config = preload("res://scripts/configuracao.gd")
 const Porta = preload("res://scripts/porta.gd")
 const Terminal = preload("res://scripts/terminal_sala.gd")
+const Mesa = preload("res://scenes/moveis/mesa.tscn")
+const Cadeira = preload("res://scenes/moveis/cadeira.tscn")
+const Banco = preload("res://scenes/moveis/banco_externo.tscn")
 var mundo: Node3D
 var livros_por_cor: Dictionary = {}
 
@@ -63,16 +66,14 @@ func criar_sala(indice: int) -> void:
 	add_child(terminal)
 
 
-# Reaproveita as peças do banco com colisão, voltadas para o painel de questões.
+# Usa o mesmo banco GLB do pátio, iluminado pelas luzes da sala e voltado ao painel.
 func criar_banco_sala(indice: int, origem: Vector3) -> void:
-	var banco := Node3D.new()
+	var banco := Banco.instantiate()
 	banco.name = "BancoSala%d" % (indice + 1)
 	banco.position = origem + Config.SALA_BANCO_OFFSET
 	banco.rotation.y = Config.SALA_BANCO_ANGULO
+	banco.camada_luz = Config.CAMADA_INTERIOR
 	add_child(banco)
-	for parte in Config.BANCO_PARTES:
-		var peca := criar_peca("PecaBancoSala", parte[0], parte[1], parte[2], true)
-		peca.reparent(banco, false)
 
 
 # Emoldura a imagem sem esticá-la: ajusta suas dimensões ao espaço disponível.
@@ -174,14 +175,16 @@ func criar_livros_agrupados() -> void:
 		add_child(objeto)
 
 
-# Cria uma mesa com dois bancos baixos, mantendo os corredores livres.
+# Instancia a mesa GLB e duas cadeiras voltadas para ela, com colisões próprias.
 func criar_mesa(posicao: Vector3) -> void:
-	for parte in Config.MESA_PARTES:
-		criar_peca("Mesa", parte[0], posicao + parte[1], "mesa", true)
-	for deslocamento in Config.BANQUETAS_OFFSET:
-		var banco: Vector3 = posicao + deslocamento
-		criar_peca("Assento", Config.BANQUETA_ASSENTO, banco + Config.BANQUETA_ASSENTO_OFFSET, "mesa", true)
-		criar_peca("BaseBanco", Config.BANQUETA_BASE, banco + Config.BANQUETA_BASE_OFFSET, "estante", true)
+	var mesa := Mesa.instantiate() as Node3D
+	mesa.position = posicao + Config.MOVEIS_PISO_OFFSET
+	add_child(mesa)
+	for lugar in Config.CADEIRAS_RECEPCAO:
+		var cadeira := Cadeira.instantiate() as Node3D
+		cadeira.position = posicao + Config.MOVEIS_PISO_OFFSET + lugar[0]
+		cadeira.rotation.y = lugar[1]
+		add_child(cadeira)
 
 
 # Ilumina a biblioteca com duas luzes suaves, sem sombras ou materiais emissivos.

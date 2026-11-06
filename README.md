@@ -1,4 +1,4 @@
-# Entscheidungsproblem — MVP completo
+# Konzept — MVP completo
 
 Jogo 3D em primeira pessoa para Godot 4.x, com renderer Compatibility.
 
@@ -8,12 +8,13 @@ Jogo 3D em primeira pessoa para Godot 4.x, com renderer Compatibility.
 2. Aperte **F5**. A cena principal já é `res://scenes/principal.tscn`.
 3. Clique em **Jogar** no menu inicial.
 
-Também é possível abrir diretamente `build/windows/Entscheidungsproblem.exe`,
+Também é possível abrir diretamente `build/windows/Konzept.exe`,
 sem instalar o Godot. O ZIP para compartilhar fica em
-`build/Entscheidungsproblem_Windows.zip`: extraia antes de executar.
+`build/Konzept_Windows.zip`: extraia antes de executar.
 
 Você começa olhando para uma biblioteca low poly em tons de azul e cinza,
 com fachada, pilastras, frontão triangular com a logo da Unijorge, pátio e entrada aberta.
+Há neve caindo no exterior; o efeito para ao entrar no prédio e volta ao sair.
 Entre para encontrar estantes com livros, mesas, bancos e tapete. Ao fundo,
 há três salas identificadas: Filosofia, Geometria Analítica e Probabilidade.
 As placas das portas mostram apenas o nome da matéria, sem números ou subtítulos.
@@ -27,6 +28,7 @@ Aproxime-se do painel e clique nele pela mira para começar.
 | Controle | Ação |
 | --- | --- |
 | W / A / S / D | Caminhar |
+| Espaço | Pular (com o personagem no chão) |
 | Mouse | Olhar |
 | Esc | Liberar o mouse e parar de caminhar |
 | Tab durante a exploração | Abrir ou fechar o menu de pausa |

@@ -1,6 +1,66 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://3bkf6jho46r5"]
 
-[ext_resource type="Script" path="res://scripts/paisagismo.gd" id="1_paisagismo"]
+[ext_resource type="Script" uid="uid://c73h64iv0f7ul" path="res://scripts/paisagismo.gd" id="1_paisagismo"]
+[ext_resource type="PackedScene" uid="uid://jjwvgkex1g2a" path="res://assets/arbusto.glb" id="2_0iu3r"]
+[ext_resource type="PackedScene" uid="uid://vm7d5nfa47dd" path="res://assets/arvore_1.glb" id="3_qmrpe"]
+[ext_resource type="PackedScene" uid="uid://wp66vnnf6dme" path="res://assets/arvore_2.glb" id="4_u7vbn"]
 
-[node name="Paisagismo" type="Node3D"]
+[node name="Paisagismo" type="Node3D" unique_id=476876599]
 script = ExtResource("1_paisagismo")
+
+[node name="arbusto2" parent="." unique_id=676273273 instance=ExtResource("2_0iu3r")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -11.245165, -1.0627327, 6.4740496)
+
+[node name="arbusto3" parent="." unique_id=553769594 instance=ExtResource("2_0iu3r")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 10.1552105, -1.8061361, 2.9597244)
+
+[node name="arbusto5" parent="." unique_id=72796404 instance=ExtResource("2_0iu3r")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 10.124613, -1.2529974, 7.17719)
+
+[node name="arbusto6" parent="." unique_id=2032070957 instance=ExtResource("2_0iu3r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.738336, -2.4194355, 5.1999464)
+
+[node name="arbusto7" parent="." unique_id=524992167 instance=ExtResource("2_0iu3r")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -8.083066, -1.0735621, 7.8857737)
+
+[node name="arvore_1" parent="." unique_id=1661033837 instance=ExtResource("3_qmrpe")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 9.079402, 0.26670313, 12.631663)
+
+[node name="arvore_1" parent="arvore_1" unique_id=1695406843 instance=ExtResource("3_qmrpe")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -36.648, 0, 0)
+
+[node name="arvore_2" parent="." unique_id=1099604601 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -9.343912, 0, 18.332966)
+
+[node name="arvore_3" parent="." unique_id=1105491375 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -17.11004, 0, 12.405413)
+
+[node name="arvore_4" parent="." unique_id=978103771 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -20.667448, 0, 2.178957)
+
+[node name="arvore_5" parent="." unique_id=1350416477 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -16.036167, 0, 3.7005005)
+
+[node name="arvore_6" parent="." unique_id=981225308 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -14.884848, 0, 16.68226)
+
+[node name="arvore_7" parent="." unique_id=830200950 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -23.942314, 0, 17.760288)
+
+[node name="arvore_8" parent="." unique_id=574528854 instance=ExtResource("3_qmrpe")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -17.750751, 0, 19.062407)
+
+[node name="arvore_9" parent="." unique_id=439574554 instance=ExtResource("3_qmrpe")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 19.390461, 0, -0.014108658)
+
+[node name="arbusto8" parent="." unique_id=1787505468 instance=ExtResource("2_0iu3r")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 7.4471006, -0.93003035, 16.070934)
+
+[node name="arvore_10" parent="." unique_id=549585846 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 11.88914, 0, 14.767656)
+
+[node name="arvore_11" parent="." unique_id=1824094257 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 18.669987, 0, 7.34988)
+
+[node name="arvore_12" parent="." unique_id=668104256 instance=ExtResource("4_u7vbn")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 9.237961, 0, 25.59717)

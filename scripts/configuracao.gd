@@ -28,6 +28,7 @@ const JOGADOR_INICIO := Vector3(0, 0.08, 19)
 const JOGADOR_VELOCIDADE := 4.5
 const JOGADOR_ACELERACAO := 18.0
 const JOGADOR_GRAVIDADE := 22.0
+const JOGADOR_IMPULSO_PULO := 7.0
 const JOGADOR_ALTURA := 1.8
 const JOGADOR_RAIO := 0.3
 const JOGADOR_OLHOS := 1.65
@@ -40,6 +41,7 @@ const JOGADOR_AJUSTE_CHAO := 0.25
 const ACOES := {
 	"andar_frente": KEY_W, "andar_tras": KEY_S,
 	"andar_esquerda": KEY_A, "andar_direita": KEY_D,
+	"pular": KEY_SPACE,
 }
 const SOL_ROTACAO := Vector3(-48, -28, 0)
 const SOL_COR := CORES["sol"]
@@ -51,6 +53,17 @@ const CEU_TOPO := CORES["ceu"]
 const CEU_HORIZONTE := CORES["horizonte"]
 const CAMADA_EXTERIOR := 1
 const CAMADA_INTERIOR := 2
+# O volume acompanha o prédio; a neve ocupa somente os quatro lados do terreno.
+const BIBLIOTECA_INTERIOR := AABB(Vector3(-11, -1, -13), Vector3(22, 7.7, 14))
+const NEVE_AREAS := [
+	[Rect2(-31, 1.8, 62, 29.2), 1400],
+	[Rect2(-31, -31, 62, 17.2), 450],
+	[Rect2(-31, -13.8, 19.2, 15.6), 250],
+	[Rect2(11.8, -13.8, 19.2, 15.6), 250],
+]
+const NEVE_ALTURA := 8.0
+const NEVE_DURACAO := 6.0
+const NEVE_FLOCO_RAIO := 0.035
 # Duas faixas chapadas de céu, sem degradê nem disco solar.
 const CEU_SHADER := """shader_type sky;
 uniform vec4 cor_topo : source_color;
@@ -132,13 +145,14 @@ const COPAS := [
 ]
 const CILINDRO_SEGMENTOS := 7
 const BANCOS := [Vector3(-7, 0, 5.2), Vector3(7, 0, 5.2)]
+const BANCOS_PISO_OFFSET := Vector3(0, 0.007, 0)
 const BANCO_PARTES := [
 	[Vector3(3.2, 0.18, 0.8), Vector3(0, 0.55, 0), "porta"],
 	[Vector3(3.2, 0.65, 0.12), Vector3(0, 0.95, -0.38), "porta"],
 	[Vector3(0.2, 0.5, 0.65), Vector3(-1.15, 0.25, 0), "pedra"],
 	[Vector3(0.2, 0.5, 0.65), Vector3(1.15, 0.25, 0), "pedra"],
 ]
-const PLACA_TITULO := "ENTSCHEIDUNGSPROBLEM"
+const PLACA_TITULO := "KONZEPT"
 const PLACA_POSICAO := Vector3(0, 5.22, 1.47)
 const PLACA_ESCALA := 0.010
 const ENTRADA_TEXTO := "B I B L I O T E C A"
@@ -150,8 +164,8 @@ const HUD_TAMANHO := Vector2(570, 112)
 const HUD_TITULO_FONTE := 21
 const HUD_TEXTO_FONTE := 16
 const HUD_ESPACO := 8
-const HUD_TITULO := "ENTSCHEIDUNGSPROBLEM  /  BIBLIOTECA"
-const HUD_CONTROLES := "WASD · Caminhar   |   Mouse · Olhar\nClique · Interagir   |   Esc · Liberar mouse   |   Tab · Menu"
+const HUD_TITULO := "KONZEPT  /  BIBLIOTECA"
+const HUD_CONTROLES := "WASD · Caminhar   |   Espaço · Pular   |   Mouse · Olhar\nClique · Interagir   |   Esc · Liberar mouse   |   Tab · Menu"
 const HUD_OPACIDADE := 0.90
 
 # Interior: recepção à frente e três salas lado a lado ao fundo.
@@ -184,7 +198,7 @@ const SALA_NOME_ESCALA := 0.0042
 const SALA_TAPETE_TAMANHO := Vector3(4.4, 0.014, 4.9)
 const SALA_TAPETE_OFFSET := Vector3(0, 0.014, -3.3)
 # O banco olha para a esquerda; o quadro fica na parede à direita, atrás dele.
-const SALA_BANCO_OFFSET := Vector3(1.5, 0, -3.4)
+const SALA_BANCO_OFFSET := Vector3(1.5, 0.021, -3.4)
 const SALA_BANCO_ANGULO := -PI / 2.0
 const SALA_QUADRO_OFFSET := Vector3(3.35, 2.35, -3.4)
 const SALA_QUADRO_ANGULO := -PI / 2.0
@@ -229,6 +243,12 @@ const LIVRO_INICIO_X := -1.19
 const LIVRO_PASSO_X := 0.255
 const LIVRO_POSICAO_Z := 0.04
 const MESAS_RECEPCAO := [Vector3(-5.6, 0, -2.3), Vector3(5.6, 0, -2.3)]
+const MOVEIS_PISO_OFFSET := Vector3(0, 0.006, 0)
+# Cada cadeira contém deslocamento em relação à mesa e rotação para olhar para ela.
+const CADEIRAS_RECEPCAO := [
+	[Vector3(0, 0, 1.12), PI],
+	[Vector3(0, 0, -1.12), 0.0],
+]
 const MESA_PARTES := [
 	[Vector3(2.6, 0.14, 1.3), Vector3(0, 0.92, 0)],
 	[Vector3(0.14, 0.86, 0.95), Vector3(-1.05, 0.43, 0)],
@@ -371,9 +391,9 @@ const MENU_PLACAR_FONTE := 52
 const MENU_FUNDO_OPACIDADE := 0.22
 const MENU_PAINEL_OPACIDADE := 0.96
 const MENU_MARCA := "BIBLIOTECA DO CONHECIMENTO"
-const MENU_TITULO := "Entscheidungsproblem"
+const MENU_TITULO := "Konzept"
 const MENU_PAUSA_TEXTO := "PAUSADO"
-const MENU_CONTROLES := "WASD para caminhar · Mouse para olhar\nMire e clique nas portas e nos painéis QUESTÕES.\nEsc libera o mouse · Tab abre este menu."
+const MENU_CONTROLES := "WASD para caminhar · Espaço para pular · Mouse para olhar\nMire e clique nas portas e nos painéis QUESTÕES.\nEsc libera o mouse · Tab abre este menu."
 const MENU_FINAL_TITULO := "Percurso concluído"
 const MENU_FINAL_MENSAGEM := "Você completou as três salas da biblioteca."
 const GUIA_ENTRADA := [

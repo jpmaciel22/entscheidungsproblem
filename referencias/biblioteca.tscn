@@ -434,7 +434,7 @@ mesh = SubResource("PrismMesh_5mk6r")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.22, 1.47)
 pixel_size = 0.01
 modulate = Color(0.9098039, 0.9254902, 0.9372549, 1)
-text = "ENTSCHEIDUNGSPROBLEM"
+text = "KONZEPT"
 font_size = 64
 outline_size = 0
 

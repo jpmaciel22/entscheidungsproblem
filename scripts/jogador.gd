@@ -22,7 +22,7 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
-# Registra WASD pela posição física das teclas.
+# Registra movimento e pulo pela posição física das teclas.
 func criar_controles() -> void:
 	for acao in Config.ACOES:
 		if not InputMap.has_action(acao):
@@ -113,7 +113,8 @@ func _unhandled_input(event: InputEvent) -> void:
 # Move com gravidade e colisões, sem aumentar a velocidade nas diagonais.
 func _physics_process(delta: float) -> void:
 	var entrada := Vector2.ZERO
-	if not interface_aberta and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+	var pode_controlar := not interface_aberta and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
+	if pode_controlar:
 		entrada = Input.get_vector("andar_esquerda", "andar_direita", "andar_frente", "andar_tras")
 	var direcao := global_transform.basis * Vector3(entrada.x, 0, entrada.y)
 	velocity.x = move_toward(velocity.x, direcao.x * Config.JOGADOR_VELOCIDADE, Config.JOGADOR_ACELERACAO * delta)
@@ -122,6 +123,8 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= Config.JOGADOR_GRAVIDADE * delta
 	else:
 		velocity.y = 0.0
+		if pode_controlar and Input.is_action_just_pressed("pular"):
+			velocity.y = Config.JOGADOR_IMPULSO_PULO
 	move_and_slide()
 	atualizar_alvo()
 	if position.y < Config.JOGADOR_RETORNO_Y:
