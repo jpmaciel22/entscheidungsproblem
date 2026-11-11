@@ -54,7 +54,14 @@ const CEU_HORIZONTE := CORES["horizonte"]
 const CAMADA_EXTERIOR := 1
 const CAMADA_INTERIOR := 2
 # O volume acompanha o prédio; a neve ocupa somente os quatro lados do terreno.
-const BIBLIOTECA_INTERIOR := AABB(Vector3(-11, -1, -13), Vector3(22, 7.7, 14))
+# A fachada do GLB fica voltada para +Z, com a entrada no centro.
+const BIBLIOTECA_MODELO_POSICAO := Vector3(0, 0, -6)
+const BIBLIOTECA_MODELO_ROTACAO := -PI / 2.0
+# A malha da divisória interna usa o mesmo material das paredes do GLB.
+const BIBLIOTECA_MALHA_PAREDE := "Cube_008"
+# O GLB mede 44 x 28 m na base; metade de X/Z encaixa na planta de 22 x 14 m.
+const BIBLIOTECA_MODELO_ESCALA := Vector3(0.5, 1.0, 0.5)
+const BIBLIOTECA_INTERIOR := AABB(Vector3(-11, -1, -13), Vector3(22, 8.7, 14))
 const NEVE_AREAS := [
 	[Rect2(-31, 1.8, 62, 29.2), 1400],
 	[Rect2(-31, -31, 62, 17.2), 450],
@@ -104,7 +111,7 @@ const FRONTON_TAMANHO := Vector3(23.4, 2.1, 0.9)
 const FRONTON_POSICAO := Vector3(0, 7.42, 1.18)
 const FRONTON_COR := "pedra"
 const LOGO_ARQUIVO := "res://assets/unijorge.png"
-const LOGO_POSICAO := Vector3(0, 7.25, 1.65)
+const LOGO_POSICAO := Vector3(0, 8.0, 1.75)
 const LOGO_LIMITE := Vector2(1.8, 1.8)
 const COLUNAS_X := [-10.3, -3.0, 3.0, 10.3]
 const COLUNA_PARTES := [
@@ -153,8 +160,10 @@ const BANCO_PARTES := [
 	[Vector3(0.2, 0.5, 0.65), Vector3(1.15, 0.25, 0), "pedra"],
 ]
 const PLACA_TITULO := "KONZEPT"
-const PLACA_POSICAO := Vector3(0, 5.22, 1.47)
+const PLACA_POSICAO := Vector3(0, 5.3, 1.45)
 const PLACA_ESCALA := 0.010
+const PLACA_NOVA_TAMANHO := Vector3(6.5, 0.82, 0.18)
+const PLACA_NOVA_POSICAO := Vector3(0, 5.3, 1.34)
 const ENTRADA_TEXTO := "B I B L I O T E C A"
 const ENTRADA_TEXTO_POSICAO := Vector3(0, 4.15, 1.45)
 const ENTRADA_TEXTO_ESCALA := 0.0037
@@ -168,39 +177,29 @@ const HUD_TITULO := "KONZEPT  /  BIBLIOTECA"
 const HUD_CONTROLES := "WASD · Caminhar   |   Espaço · Pular   |   Mouse · Olhar\nClique · Interagir   |   Esc · Liberar mouse   |   Tab · Menu"
 const HUD_OPACIDADE := 0.90
 
-# Interior: recepção à frente e três salas lado a lado ao fundo.
-const INTERIOR_BLOCOS := [
-	["Forro", Vector3(21.6, 0.08, 13.6), Vector3(0, 6.25, -6), "parede_interna", false],
-	["RevestimentoE", Vector3(0.04, 6.1, 13.6), Vector3(-10.78, 3.05, -6), "parede_interna", false],
-	["RevestimentoD", Vector3(0.04, 6.1, 13.6), Vector3(10.78, 3.05, -6), "parede_interna", false],
-	["RevestimentoFundo", Vector3(21.6, 6.1, 0.04), Vector3(0, 3.05, -12.78), "parede_interna", false],
-	["RevestimentoFrenteE", Vector3(8.8, 6.1, 0.04), Vector3(-6.4, 3.05, 0.78), "parede_interna", false],
-	["RevestimentoFrenteD", Vector3(8.8, 6.1, 0.04), Vector3(6.4, 3.05, 0.78), "parede_interna", false],
-	["DivisoriaE", Vector3(0.18, 6.1, 6.8), Vector3(-3.65, 3.05, -9.4), "parede_interna", true],
-	["DivisoriaD", Vector3(0.18, 6.1, 6.8), Vector3(3.65, 3.05, -9.4), "parede_interna", true],
-	["TapeteRecepcao", Vector3(4.0, 0.014, 6.3), Vector3(0, 0.014, -2.5), "tapete", false],
-]
+# As divisórias traseiras agora fazem parte do GLB da biblioteca.
+const INTERIOR_BLOCOS := []
 const SALAS := [
-	{"nome": "FILOSOFIA", "x": -7.25, "quadro": "res://assets/hegel.jpg"},
-	{"nome": "GEOMETRIA ANALÍTICA", "x": 0.0, "quadro": "res://assets/godel.jpg"},
-	{"nome": "PROBABILIDADE", "x": 7.25, "quadro": "res://assets/dice.jpg"},
+	{"nome": "FILOSOFIA", "x": -6.825, "quadro_x": -1.85, "terminal_x": -9.15, "banco_x": -5.8, "quadro": "res://assets/hegel.jpg"},
+	{"nome": "GEOMETRIA ANALÍTICA", "x": -0.075, "quadro_x": 5.32, "terminal_x": -0.95, "banco_x": 2.25, "quadro": "res://assets/godel.jpg"},
+	{"nome": "PROBABILIDADE", "x": 6.95, "quadro_x": 10.65, "terminal_x": 6.25, "banco_x": 8.25, "quadro": "res://assets/dice.jpg"},
 ]
-const SALA_FRENTE_Z := -6.0
+const SALA_FRENTE_Z := -7.4
+# Fecha parcialmente os vãos largos do GLB e deixa uma passagem para a porta.
 const SALA_PAREDE_PARTES := [
-	[Vector3(2.65, 6.1, 0.18), Vector3(-2.225, 3.05, 0)],
-	[Vector3(2.65, 6.1, 0.18), Vector3(2.225, 3.05, 0)],
-	[Vector3(1.8, 3.3, 0.18), Vector3(0, 4.45, 0)],
+	[Vector3(0.55, 6.2, 1.0), Vector3(-1.15, 3.1, -0.5)],
+	[Vector3(0.55, 6.2, 1.0), Vector3(1.15, 3.1, -0.5)],
+	[Vector3(1.75, 3.45, 1.0), Vector3(0, 4.475, -0.5)],
 ]
-const SALA_PLACA_TAMANHO := Vector3(5.4, 0.88, 0.1)
+const SALA_PLACA_TAMANHO := Vector3(2.8, 0.62, 0.1)
 const SALA_PLACA_OFFSET := Vector3(0, 3.55, 0.16)
 const SALA_NOME_OFFSET := Vector3(0, 3.55, 0.22)
 const SALA_NOME_ESCALA := 0.0042
-const SALA_TAPETE_TAMANHO := Vector3(4.4, 0.014, 4.9)
-const SALA_TAPETE_OFFSET := Vector3(0, 0.014, -3.3)
+const SALA_NOME_ESCALA_LONGA := 0.0028
 # O banco olha para a esquerda; o quadro fica na parede à direita, atrás dele.
-const SALA_BANCO_OFFSET := Vector3(1.5, 0.021, -3.4)
+const SALA_BANCO_OFFSET := Vector3(0, 0.021, -3.2)
 const SALA_BANCO_ANGULO := -PI / 2.0
-const SALA_QUADRO_OFFSET := Vector3(3.35, 2.35, -3.4)
+const SALA_QUADRO_OFFSET := Vector3(0, 2.35, -3.2)
 const SALA_QUADRO_ANGULO := -PI / 2.0
 const SALA_QUADRO_LIMITE := Vector2(1.9, 2.1)
 const SALA_QUADRO_BORDA := 0.07
@@ -214,6 +213,11 @@ const PORTA_SALA_DOBRADICA_OFFSET := Vector3(-PORTA_SALA_TAMANHO.x / 2.0, 0, 0)
 const PORTA_SALA_FOLHA_OFFSET := -PORTA_SALA_DOBRADICA_OFFSET
 const PORTA_SALA_ANGULO_ABERTURA := PI / 2.0
 const PORTA_SALA_TEMPO := 0.65
+# O GLB original tem 2 m de largura no eixo Z e 3 m de altura.
+# A maçaneta original fica do lado da recepção.
+const PORTA_MODELO_ROTACAO := -PI / 2.0
+const PORTA_MODELO_ESCALA := Vector3(0.86, 2.75 / 3.0, 0.86)
+const PORTA_MODELO_OFFSET := Vector3(0.86, -1.375, 0)
 const PORTA_SALA_MOLDURAS := [
 	[Vector3(0.12, 2.9, 0.28), Vector3(-0.96, 1.45, 0)],
 	[Vector3(0.12, 2.9, 0.28), Vector3(0.96, 1.45, 0)],
@@ -221,10 +225,8 @@ const PORTA_SALA_MOLDURAS := [
 ]
 const PORTA_PUXADOR_TAMANHO := Vector3(0.07, 0.28, 0.12)
 const PORTA_PUXADOR_OFFSET := Vector3(0.62, 0, 0.12)
-const ESTANTES_RECEPCAO := [
-	[Vector3(-9.8, 0, -2.5), PI / 2.0],
-	[Vector3(9.8, 0, -2.5), -PI / 2.0],
-]
+# O GLB já traz estantes; duplicá-las aqui causava sobreposição.
+const ESTANTES_RECEPCAO := []
 const ESTANTE_PARTES := [
 	[Vector3(2.8, 2.7, 0.10), Vector3(0, 1.35, -0.22)],
 	[Vector3(0.12, 2.7, 0.55), Vector3(-1.4, 1.35, 0)],
@@ -242,7 +244,7 @@ const LIVRO_PROFUNDIDADE := 0.32
 const LIVRO_INICIO_X := -1.19
 const LIVRO_PASSO_X := 0.255
 const LIVRO_POSICAO_Z := 0.04
-const MESAS_RECEPCAO := [Vector3(-5.6, 0, -2.3), Vector3(5.6, 0, -2.3)]
+const MESAS_RECEPCAO := [Vector3(-5.2, 0, -3.0), Vector3(5.2, 0, -3.0)]
 const MOVEIS_PISO_OFFSET := Vector3(0, 0.006, 0)
 # Cada cadeira contém deslocamento em relação à mesa e rotação para olhar para ela.
 const CADEIRAS_RECEPCAO := [
@@ -301,7 +303,7 @@ const QUESTOES_ARQUIVOS := [
 	"res://data/geometria_analitica.json",
 	"res://data/probabilidade.json",
 ]
-const TERMINAL_OFFSET := Vector3(-2.5, 1.65, -3.4)
+const TERMINAL_OFFSET := Vector3(0, 1.65, -3.2)
 const TERMINAL_ANGULO := PI / 2.0
 const TERMINAL_TAMANHO := Vector3(1.65, 1.15, 0.18)
 const TERMINAL_TELA_TAMANHO := Vector3(1.45, 0.95, 0.035)
@@ -396,8 +398,34 @@ const MENU_PAUSA_TEXTO := "PAUSADO"
 const MENU_CONTROLES := "WASD para caminhar · Espaço para pular · Mouse para olhar\nMire e clique nas portas e nos painéis QUESTÕES.\nEsc libera o mouse · Tab abre este menu."
 const MENU_FINAL_TITULO := "Percurso concluído"
 const MENU_FINAL_MENSAGEM := "Você completou as três salas da biblioteca."
-const GUIA_ENTRADA := [
-	["GuiaEntradaE", Vector3(0.05, 0.012, 5.9), Vector3(-1.9, 0.018, -2.5), "pedra", false],
-	["GuiaEntradaD", Vector3(0.05, 0.012, 5.9), Vector3(1.9, 0.018, -2.5), "pedra", false],
-]
+# O caminho claro já faz parte do modelo da biblioteca.
+const GUIA_ENTRADA := []
 const MENU_ATALHO := KEY_TAB
+
+# Sons fornecidos pelo autor: originais preservados; recortes feitos em memória.
+const AUDIO_ARQUIVOS := {
+	"musica": "res://assets/sons/soundtrack.wav",
+	"passos": "res://assets/sons/passos.wav",
+	"porta": "res://assets/sons/porta.wav",
+	"acertou": "res://assets/sons/acertou.wav",
+	"errou": "res://assets/sons/errou.wav",
+}
+const AUDIO_RECORTES := {
+	"passos": Vector2(0.065, 0.765),
+	"porta": Vector2(0.0, 0.9),
+	"acertou": Vector2(0.50, 1.40),
+	"errou": Vector2(0.07, 0.90),
+}
+const AUDIO_MUSICA_DB := -21.0
+const AUDIO_MUSICA_MENU_DB := -24.0
+const AUDIO_MUSICA_QUESTOES_DB := -28.0
+const AUDIO_MUSICA_INICIO_DB := -60.0
+const AUDIO_MUSICA_FADE_DB_SEGUNDO := 30.0
+const AUDIO_PASSOS_DB := -6.0
+const AUDIO_PORTA_DB := -6.0
+const AUDIO_RESPOSTA_DB := -6.0
+const AUDIO_PASSOS_VELOCIDADE_MIN := 0.2
+const AUDIO_PASSOS_RITMO_MIN := 0.82
+const AUDIO_PASSOS_RITMO_MAX := 1.05
+const AUDIO_PORTA_DISTANCIA := 16.0
+const AUDIO_PORTA_UNIDADE := 3.0

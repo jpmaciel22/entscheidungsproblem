@@ -2,6 +2,10 @@
 
 Jogo 3D em primeira pessoa para Godot 4.x, com renderer Compatibility.
 
+A [análise técnica completa em PDF](documentacao/Konzept_Analise_Tecnica.pdf)
+explica a construção do jogo, a arquitetura e o funcionamento dos scripts.
+Há também uma [versão em Markdown](documentacao/Konzept_Analise_Tecnica.md).
+
 ## Como rodar
 
 1. Abra `project.godot` no Godot, ou volte à janela do projeto já aberto.
@@ -12,9 +16,11 @@ Também é possível abrir diretamente `build/windows/Konzept.exe`,
 sem instalar o Godot. O ZIP para compartilhar fica em
 `build/Konzept_Windows.zip`: extraia antes de executar.
 
-Você começa olhando para uma biblioteca low poly em tons de azul e cinza,
-com fachada, pilastras, frontão triangular com a logo da Unijorge, pátio e entrada aberta.
+Você começa olhando para a biblioteca feita no Blender, com letreiro, logo da
+Unijorge, pátio e entrada aberta.
 Há neve caindo no exterior; o efeito para ao entrar no prédio e volta ao sair.
+Há trilha de fundo em volume discreto, passos ao caminhar, som nas portas e
+efeitos diferentes para acerto e erro. A música diminui durante as questões.
 Entre para encontrar estantes com livros, mesas, bancos e tapete. Ao fundo,
 há três salas identificadas: Filosofia, Geometria Analítica e Probabilidade.
 As placas das portas mostram apenas o nome da matéria, sem números ou subtítulos.
@@ -43,16 +49,19 @@ Aproxime-se do painel e clique nele pela mira para começar.
 
 - `scenes/principal.tscn`: somente um Node3D com script anexado.
 - `scripts/configuracao.gd`: cores, medidas, posições, iluminação e movimento.
-- `scripts/mundo.gd`: construção procedural do cenário e das instruções.
+- `scripts/mundo.gd`: modelo da biblioteca, colisões, terreno e instruções.
 - `scripts/jogador.gd`: cápsula física, câmera, controles e gravidade.
 - `scripts/interior.gd`: recepção, três salas, móveis, livros e luzes internas.
-- `scripts/porta.gd`: portas das salas com colisão e abertura animada.
+- `scripts/porta.gd`: modelo das portas, colisão e abertura animada.
+- `assets/biblioteca.glb` e `assets/porta.glb`: modelos originais do autor.
 - `scripts/maos.gd`: sprites sobrepostos com estados e balanço ao caminhar.
 - `scripts/mira.gd`: mira pequena desenhada por código.
 - `scripts/terminal_sala.gd`: painel interativo dentro de cada sala.
 - `scripts/banco_questoes.gd`: carregador e validação genérica dos arquivos JSON.
 - `scripts/questionario.gd`: interface, respostas, feedback, retomada e placar.
 - `scripts/fluxo_jogo.gd`: menu inicial, pausa, tela final e nova partida.
+- `scripts/audio_jogo.gd`: trilha em loop, passos, abertura das portas e feedback sonoro.
+- `assets/sons/`: os cinco WAVs fornecidos pelo autor, com os originais preservados.
 - `export_presets.cfg`: exportação Windows 64 bits, com dados embutidos no EXE.
 - `EXPORTAR_WINDOWS.md`: instruções curtas para gerar uma nova versão.
 - `data/filosofia.json`, `geometria_analitica.json`, `probabilidade.json`: questões.
@@ -123,21 +132,41 @@ um caminho para PNG ausente, a interface mostra um placeholder. Um JSON inválid
 mostra uma mensagem na própria sala, sem impedir a exploração das outras.
 Você pode pedir alterações e novas questões pelo chat; não precisa editar scripts.
 
-O cenário usa primitivas, materiais compartilhados com roughness 1 e metallic 0,
-uma luz direcional externa e duas luzes suaves internas, todas sem sombras.
+## Áudio
+
+Os arquivos `soundtrack.wav`, `passos.wav`, `porta.wav`, `acertou.wav` e
+`errou.wav`, em `assets/sons/`, são carregados uma vez pelo controlador de áudio.
+A trilha acompanha menu, exploração e resultado, com volume reduzido durante
+a leitura das questões. Os passos usam o movimento real do corpo e param no
+ar, ao esbarrar sem se mover, ao abrir interfaces ou ao liberar o mouse.
+O som da porta é espacial e parte da posição da porta aberta.
+
+Acerto e erro tocam apenas ao registrar uma resposta nova; cliques repetidos
+e a retomada de uma questão já respondida não repetem o efeito. Trocar de
+janela suspende os sons; ao voltar, a música continua do mesmo ponto.
+Os recortes de silêncio e os volumes ficam nas constantes `AUDIO_*` de
+`scripts/configuracao.gd`. Os WAVs originais não são reescritos. As importações
+dos quatro efeitos curtos usam PCM sem compressão para permitir o recorte
+em memória; a trilha mantém a compressão de importação do motor.
+
+O cenário combina modelos do autor com primitivas e materiais compartilhados,
+uma luz direcional externa e três luzes suaves internas, todas sem sombras.
 O céu tem duas faixas de cor chapada, sem degradê ou disco solar. A paleta inteira
 está em `scripts/configuracao.gd`, incluindo as cores reservadas para a futura UI.
-O destaque quente aparece apenas no puxador, na mira e na dica de interação.
+O destaque de interação aparece na mira e na dica.
 Os 60 livros da recepção são desenhados em cinco grupos por cor (MultiMesh).
-O cenário usa primitivas; os quadros das salas e a logo da fachada usam as imagens
-fornecidas em `assets/`, sem alterar os arquivos originais.
+Os quadros das salas e a logo da fachada usam as imagens fornecidas em `assets/`.
+Os GLBs originais são instanciados sem alterar seus arquivos; a colisão do prédio
+é gerada a partir da geometria. As divisórias traseiras vêm do modelo da biblioteca.
+O prédio tem 44 × 28 m no arquivo Blender; no jogo, X e Z usam escala 0,5
+para encaixar no terreno de 22 × 14 m, mantendo a altura original. A prévia
+em `scenes/paisagismo.tscn` usa a mesma escala e o mesmo modelo.
 Não há materiais emissivos ou efeitos pesados. A física usa GodotPhysics3D.
 
 O polimento adiciona uma vista da fachada no menu, ícone da janela, instruções
 de controle e detalhes chapados nas bordas do tapete, sem acrescentar luzes ou efeitos
-pesados. Os modelos em assets só aparecem quando instanciados na cena opcional
-de paisagismo. A exportação permite incluir GLBs e suas texturas para que as
-árvores posicionadas no editor também funcionem no EXE.
+pesados. A exportação inclui os modelos e as árvores posicionadas na cena opcional
+de paisagismo para que também funcionem no EXE.
 
 ## Validação da entrega
 

@@ -8,9 +8,12 @@ const Questionario = preload("res://scripts/questionario.gd")
 const Fluxo = preload("res://scripts/fluxo_jogo.gd")
 const Paisagismo = preload("res://scenes/paisagismo.tscn")
 const BancoExterno = preload("res://scenes/moveis/banco_externo.tscn")
+const ModeloBiblioteca = preload("res://assets/biblioteca.glb")
 const Neve = preload("res://scripts/neve.gd")
+const AudioJogo = preload("res://scripts/audio_jogo.gd")
 var materiais: Dictionary = {}
 var camada_instrucoes: CanvasLayer
+var audio: Node
 
 
 # Gera todos os elementos assim que a cena principal começa.
@@ -22,6 +25,7 @@ func _ready() -> void:
 	criar_paisagismo()
 	criar_interior()
 	criar_jogador()
+	criar_audio()
 	criar_neve()
 	criar_instrucoes()
 	criar_questionario()
@@ -38,6 +42,8 @@ func criar_materiais() -> void:
 		material.metallic_specular = 0.0
 		material.emission_enabled = false
 		materiais[chave] = material
+	# Substituído pelo material real do GLB ao instanciar a biblioteca.
+	materiais["parede_modelo"] = materiais["telhado"]
 
 
 # Usa duas cores chapadas no céu, luz ambiente fraca e sol sem sombras.
@@ -75,13 +81,47 @@ func criar_terreno() -> void:
 	criar_blocos(Config.TERRENO)
 
 
-# Constrói a casca externa do prédio e sua entrada.
+# Posiciona o modelo original e cria colisões acompanhando seus contornos.
 func criar_biblioteca() -> void:
-	criar_blocos(Config.CASCA_BIBLIOTECA)
-	criar_fachada()
-	criar_porta()
-	for x in Config.JANELAS_X:
-		criar_janela(x)
+	var modelo := ModeloBiblioteca.instantiate() as Node3D
+	modelo.name = "BibliotecaModelo"
+	modelo.position = Config.BIBLIOTECA_MODELO_POSICAO
+	modelo.rotation.y = Config.BIBLIOTECA_MODELO_ROTACAO
+	modelo.scale = Config.BIBLIOTECA_MODELO_ESCALA
+	add_child(modelo)
+	var faces := PackedVector3Array()
+	coletar_colisoes_modelo(modelo, modelo, faces)
+	if not faces.is_empty():
+		var corpo := StaticBody3D.new()
+		corpo.name = "ColisaoBiblioteca"
+		var forma := ConcavePolygonShape3D.new()
+		forma.set_faces(faces)
+		forma.backface_collision = true
+		var colisao := CollisionShape3D.new()
+		colisao.shape = forma
+		corpo.add_child(colisao)
+		modelo.add_child(corpo)
+	# Letreiro e logo são objetos do jogo, independentes do arquivo GLB.
+	criar_caixa("PlacaFachada", Config.PLACA_NOVA_TAMANHO, Config.PLACA_NOVA_POSICAO, "porta", false)
+	criar_placa(Config.PLACA_TITULO, Config.PLACA_POSICAO, Config.PLACA_ESCALA)
+	criar_logo_fachada()
+
+
+# Reúne triângulos no espaço do prédio e preserva as aberturas das paredes.
+func coletar_colisoes_modelo(no: Node, modelo: Node3D, faces: PackedVector3Array) -> void:
+	if no is MeshInstance3D:
+		var peca := no as MeshInstance3D
+		if peca.name == Config.BIBLIOTECA_MALHA_PAREDE and peca.get_active_material(0) != null:
+			materiais["parede_modelo"] = peca.get_active_material(0)
+		peca.layers = Config.CAMADA_EXTERIOR | Config.CAMADA_INTERIOR
+		peca.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		# O terreno sustenta o piso que foi exportado com escala zero.
+		if peca.mesh != null and absf(peca.global_transform.basis.determinant()) > 0.00001:
+			var relativa := modelo.global_transform.affine_inverse() * peca.global_transform
+			for vertice in peca.mesh.get_faces():
+				faces.append(relativa * vertice)
+	for filho in no.get_children():
+		coletar_colisoes_modelo(filho, modelo, faces)
 
 
 # Forma a fachada com pilastras, frontão triangular e letreiro.
@@ -179,6 +219,16 @@ func criar_neve() -> void:
 	add_child(neve)
 
 
+# Conecta os efeitos das portas e os passos reais ao controlador de áudio.
+func criar_audio() -> void:
+	audio = AudioJogo.new()
+	audio.name = "AudioJogo"
+	audio.jogador = get_node("Jogador")
+	add_child(audio)
+	for porta in get_tree().get_nodes_in_group("portas_salas"):
+		porta.abertura_iniciada.connect(audio.tocar_porta)
+
+
 # Delega a construção da recepção e das três salas a um script pequeno separado.
 func criar_interior() -> void:
 	var interior := Interior.new()
@@ -220,6 +270,8 @@ func criar_questionario() -> void:
 	questionario.jogador = get_node("Jogador")
 	questionario.camada_instrucoes = camada_instrucoes
 	add_child(questionario)
+	audio.questionario = questionario
+	questionario.resposta_registrada.connect(audio.tocar_resposta)
 	get_node("Interior").solicitar_questoes.connect(questionario.abrir_sala)
 	questionario.progresso_alterado.connect(atualizar_paineis)
 	questionario.atualizar_placar()

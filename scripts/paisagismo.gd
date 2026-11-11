@@ -3,6 +3,7 @@ extends Node3D
 ## Cena opcional de árvores posicionadas pelo usuário. A referência existe só no editor.
 
 const Config = preload("res://scripts/configuracao.gd")
+const ModeloBiblioteca = preload("res://assets/biblioteca.glb")
 
 
 # Mostra um guia no editor; no jogo, configura apenas os modelos posicionados.
@@ -70,29 +71,28 @@ func criar_colisao_tronco(arvore: Node3D) -> void:
 	arvore.add_child(corpo)
 
 
-# Cria terreno e fachada de referência sem owner: não são gravados no .tscn.
+# Mostra a biblioteca atual na cena de paisagismo sem gravá-la no .tscn.
 func criar_referencia() -> void:
-	if not is_inside_tree() or get_node_or_null(Config.PREVIA_NOME) != null:
+	if not is_inside_tree():
 		return
+	var antiga := get_node_or_null(Config.PREVIA_NOME)
+	if antiga != null:
+		remove_child(antiga)
+		antiga.queue_free()
 	var referencia := Node3D.new()
 	referencia.name = Config.PREVIA_NOME
 	add_child(referencia)
-	var materiais: Dictionary = {}
-	for cor in Config.CORES:
-		var material := StandardMaterial3D.new()
-		material.albedo_color = Config.CORES[cor]
-		material.roughness = 1.0
-		material.metallic = 0.0
-		material.metallic_specular = 0.0
-		materiais[cor] = material
-	for blocos in [Config.TERRENO, Config.CASCA_BIBLIOTECA, Config.FACHADA, Config.PORTA_MOLDURA]:
-		for bloco in blocos:
-			var caixa := BoxMesh.new()
-			caixa.size = bloco[1]
-			criar_malha_referencia(referencia, caixa, bloco[2], materiais[bloco[3]])
-	var frontao := PrismMesh.new()
-	frontao.size = Config.FRONTON_TAMANHO
-	criar_malha_referencia(referencia, frontao, Config.FRONTON_POSICAO, materiais[Config.FRONTON_COR])
+	var predio := ModeloBiblioteca.instantiate() as Node3D
+	predio.position = Config.BIBLIOTECA_MODELO_POSICAO
+	predio.rotation.y = Config.BIBLIOTECA_MODELO_ROTACAO
+	predio.scale = Config.BIBLIOTECA_MODELO_ESCALA
+	referencia.add_child(predio)
+	var chao := BoxMesh.new()
+	chao.size = Config.TERRENO[0][1]
+	var material_chao := StandardMaterial3D.new()
+	material_chao.albedo_color = Config.CORES["grama"]
+	material_chao.roughness = 1.0
+	criar_malha_referencia(referencia, chao, Config.TERRENO[0][2], material_chao)
 	var sol := DirectionalLight3D.new()
 	sol.rotation_degrees = Config.SOL_ROTACAO
 	sol.light_color = Config.SOL_COR

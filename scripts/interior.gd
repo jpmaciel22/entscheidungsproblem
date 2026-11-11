@@ -42,12 +42,14 @@ func criar_sala(indice: int) -> void:
 	var dados: Dictionary = Config.SALAS[indice]
 	var origem := Vector3(dados["x"], 0, Config.SALA_FRENTE_Z)
 	for parte in Config.SALA_PAREDE_PARTES:
-		criar_peca("ParedeSala", parte[0], origem + parte[1], "parede_interna", true)
+		var parede := criar_peca("ParedeSala", parte[0], origem + parte[1], "parede_modelo", true)
+		parede.layers = Config.CAMADA_EXTERIOR | Config.CAMADA_INTERIOR
 	for parte in Config.PORTA_SALA_MOLDURAS:
-		criar_peca("MolduraSala", parte[0], origem + parte[1], "pedra")
+		var moldura := criar_peca("MolduraSala", parte[0], origem + parte[1], "parede_modelo")
+		moldura.layers = Config.CAMADA_EXTERIOR | Config.CAMADA_INTERIOR
 	criar_peca("PlacaSala", Config.SALA_PLACA_TAMANHO, origem + Config.SALA_PLACA_OFFSET, "placa_fundo")
-	criar_texto(dados["nome"], origem + Config.SALA_NOME_OFFSET, Config.SALA_NOME_ESCALA)
-	criar_peca("TapeteSala", Config.SALA_TAPETE_TAMANHO, origem + Config.SALA_TAPETE_OFFSET, "tapete")
+	var escala_nome: float = Config.SALA_NOME_ESCALA_LONGA if indice == 1 else Config.SALA_NOME_ESCALA
+	criar_texto(dados["nome"], origem + Config.SALA_NOME_OFFSET, escala_nome)
 	criar_banco_sala(indice, origem)
 	criar_quadro_sala(indice, origem, dados["quadro"])
 	var porta := Porta.new()
@@ -60,6 +62,7 @@ func criar_sala(indice: int) -> void:
 	terminal.name = "TerminalSala%d" % (indice + 1)
 	terminal.indice_sala = indice
 	terminal.position = origem + Config.TERMINAL_OFFSET
+	terminal.position.x = dados["terminal_x"]
 	terminal.rotation.y = Config.TERMINAL_ANGULO
 	terminal.materiais = mundo.materiais
 	terminal.solicitar_questoes.connect(func(sala: int) -> void: solicitar_questoes.emit(sala))
@@ -71,6 +74,7 @@ func criar_banco_sala(indice: int, origem: Vector3) -> void:
 	var banco := Banco.instantiate()
 	banco.name = "BancoSala%d" % (indice + 1)
 	banco.position = origem + Config.SALA_BANCO_OFFSET
+	banco.position.x = Config.SALAS[indice]["banco_x"]
 	banco.rotation.y = Config.SALA_BANCO_ANGULO
 	banco.camada_luz = Config.CAMADA_INTERIOR
 	add_child(banco)
@@ -85,6 +89,7 @@ func criar_quadro_sala(indice: int, origem: Vector3, caminho: String) -> void:
 	var quadro := Node3D.new()
 	quadro.name = "QuadroSala%d" % (indice + 1)
 	quadro.position = origem + Config.SALA_QUADRO_OFFSET
+	quadro.position.x = Config.SALAS[indice]["quadro_x"]
 	quadro.rotation.y = Config.SALA_QUADRO_ANGULO
 	add_child(quadro)
 	var proporcao := textura.get_size()

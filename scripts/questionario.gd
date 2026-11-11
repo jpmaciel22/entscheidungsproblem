@@ -3,6 +3,7 @@ extends CanvasLayer
 
 signal progresso_alterado(sala: int, respondidas: int, total: int, acertos: int, concluida: bool)
 signal partida_concluida(resultados: Array)
+signal resposta_registrada(correta: bool)
 const Config = preload("res://scripts/configuracao.gd")
 const Banco = preload("res://scripts/banco_questoes.gd")
 var jogador: CharacterBody3D
@@ -240,6 +241,7 @@ func responder(indice: int) -> void:
 	estado["respostas"].append(indice)
 	if indice == questao["indice_correto"]:
 		estado["acertos"] += 1
+	resposta_registrada.emit(indice == questao["indice_correto"])
 	mostrar_feedback(indice)
 	atualizar_placar()
 
