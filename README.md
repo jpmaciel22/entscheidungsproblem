@@ -72,11 +72,7 @@ Aproxime-se do painel e clique nele pela mira para começar.
 - `referencias/`: cena da biblioteca para inspeção e 25 objetos GLB de referência.
 - `referencias/README.md`: como importar no Blender, consultar medidas e usar placas sem texto.
 - `ferramentas/gerar_graficos.gd` e `scripts/grafico.gd`: geração dos gráficos,
-  já executada nesta entrega; não requer ação manual.
 - `assets/hand_idle.png`, `hand_point.png`, `hand_click.png`: sprites originais.
-
-Não é necessário editar código, criar nós ou posicionar objetos no editor.
-Peça os ajustes no chat: os parâmetros estão centralizados na configuração.
 
 ## Escopo
 
